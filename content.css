@@ -1,0 +1,58 @@
+/*
+ * Copyright (C) 2025 Adrien Vergé
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
+.editable-html-to-clipboard-toast {
+  position: fixed;
+  z-index: 1000;
+  left: 50%;
+  bottom: 30px;
+  min-width: 256px;
+  margin-left: -128px;
+  border-radius: 4px;
+  padding: 16px;
+  background-color: rgb(0 0 0 / 0.7);
+  text-align: center;
+  font-family: sans-serif;
+  color: #fff;
+}
+.editable-html-to-clipboard-toast:not(.from-left):not(.from-right) {
+  animation:
+    editable-html-to-clipboard-fadein 0.5s,
+    editable-html-to-clipboard-fadeout 0.5s 2.5s;
+}
+.editable-html-to-clipboard-toast.from-left {
+  animation:
+    editable-html-to-clipboard-fadein-from-left 0.5s,
+    editable-html-to-clipboard-fadeout 0.5s 2.5s;
+}
+.editable-html-to-clipboard-toast.from-right {
+  animation:
+    editable-html-to-clipboard-fadein-from-right 0.5s,
+    editable-html-to-clipboard-fadeout 0.5s 2.5s;
+}
+@keyframes editable-html-to-clipboard-fadein {
+  from {bottom: 0; opacity: 0;} to {bottom: 30px; opacity: 1;}
+}
+@keyframes editable-html-to-clipboard-fadein-from-left {
+  from {left: 0; opacity: 0;} to {left: 50%; opacity: 1;}
+}
+@keyframes editable-html-to-clipboard-fadein-from-right {
+  from {left: 100%; opacity: 0;} to {left: 50%; opacity: 1;}
+}
+@keyframes editable-html-to-clipboard-fadeout {
+  from {bottom: 30px; opacity: 1;} to {bottom: 0; opacity: 0;}
+}

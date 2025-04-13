@@ -1,0 +1,35 @@
+{
+  "manifest_version": 3,
+  "name": "Editable HTML to clipboard",
+  "version": "1.0.0",
+  "description": "Copy or paste source HTML of editable fields to/from clipboard",
+  "permissions": [
+    "activeTab",
+    "clipboardRead",
+    "clipboardWrite",
+    "commands",
+    "contextMenus"
+  ],
+  "icons": {
+    "128": "icon128.png"
+  },
+  "content_scripts": [{
+    "matches": ["<all_urls>"],
+    "js": ["content.js"],
+    "css": ["content.css"],
+    "run_at": "document_end"
+  }],
+  "background": {
+    "service_worker": "service-worker.js"
+  },
+  "commands": {
+    "contenteditable_to_clipboard": {
+      "suggested_key": {"default": "Ctrl+Period"},
+      "description": "Copy editable HTML to clipboard"
+    },
+    "clipboard_to_contenteditable": {
+      "suggested_key": {"default": "Ctrl+Shift+Period"},
+      "description": "Replace editable HTML from clipboard"
+    }
+  }
+}
