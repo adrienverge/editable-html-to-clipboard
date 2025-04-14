@@ -27,10 +27,39 @@ chrome.runtime.onInstalled.addListener(() => {
     contexts: ['editable'],
   });
 });
-chrome.contextMenus.onClicked.addListener(async (info, tab) => {
-  await chrome.tabs.sendMessage(tab.id, {id: info.menuItemId});
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  runAction(info.menuItemId, tab.id);
 });
 
-chrome.commands.onCommand.addListener(async (command, tab) => {
-  await chrome.tabs.sendMessage(tab.id, {id: command});
+chrome.commands.onCommand.addListener((command, tab) => {
+  runAction(command, tab.id);
 });
+
+async function runAction(action, tabId) {
+  const scriptsLoaded = await chrome.scripting.executeScript({
+    target: {tabId: tabId},
+    function: () => { return typeof EditableHtmlToClipboard === 'function'; },
+  });
+  if (!scriptsLoaded[0].result) {
+    await chrome.scripting.insertCSS({
+      target: {tabId},
+      files: ['content.css'],
+    });
+    await chrome.scripting.executeScript({
+      target: {tabId},
+      files: ['content.js'],
+    });
+  }
+
+  if (action === 'contenteditable_to_clipboard') {
+    await chrome.scripting.executeScript({
+      target: {tabId: tabId},
+      function: () => { EditableHtmlToClipboard.contenteditableToClipboard(); },
+    });
+  } else if (action === 'clipboard_to_contenteditable') {
+    await chrome.scripting.executeScript({
+      target: {tabId: tabId},
+      function: () => { EditableHtmlToClipboard.clipboardToContenteditable(); },
+    });
+  }
+}

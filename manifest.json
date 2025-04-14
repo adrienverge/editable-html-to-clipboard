@@ -8,17 +8,12 @@
     "clipboardRead",
     "clipboardWrite",
     "commands",
-    "contextMenus"
+    "contextMenus",
+    "scripting"
   ],
   "icons": {
     "128": "icon128.png"
   },
-  "content_scripts": [{
-    "matches": ["<all_urls>"],
-    "js": ["content.js"],
-    "css": ["content.css"],
-    "run_at": "document_end"
-  }],
   "background": {
     "service_worker": "service-worker.js"
   },

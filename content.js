@@ -15,23 +15,59 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-chrome.runtime.onMessage.addListener(async message => {
-  const editable = getContenteditableElement();
-  if (!editable) {
-    displayToast('No editable field is currently focused.');
-    return;
+class EditableHtmlToClipboard {
+  static displayToast(message, style) {
+    const toast = document.createElement('div');
+    toast.classList.add('editable-html-to-clipboard-toast');
+    if (style === 'from-left' || style === 'from-right') {
+      toast.classList.add(style);
+    }
+    toast.innerText = message;
+    document.body.appendChild(toast);
+    setTimeout(() => toast.remove(), 3000);
   }
 
-  if (message.id === 'contenteditable_to_clipboard') {
+  static getContenteditableElement() {
+    const element = document.activeElement.closest(
+      '[contenteditable], [contentEditable]');
+
+    if (!element) {
+      return null;
+    }
+
+    if (element.contentEditable !== true &&
+        element.contentEditable !== 'true' &&
+        element.contenteditable !== true &&
+        element.contenteditable !== 'true') {
+      return null;
+    }
+
+    return element;
+  }
+
+  static contenteditableToClipboard() {
+    const editable = this.getContenteditableElement();
+    if (!editable) {
+      this.displayToast('No editable field is currently focused.');
+      return;
+    }
+
     navigator.clipboard.writeText(editable.innerHTML);
 
-    displayToast('📋 HTML source copied to the clipboard.\n' +
-                 'Edit it, then Ctrl+Shift+. to paste it back.', 'from-left');
+    this.displayToast(
+      '📋 HTML source copied to the clipboard.\n' +
+      'Edit it, then Ctrl+Shift+. to paste it back.', 'from-left');
+  }
 
-  } else if (message.id === 'clipboard_to_contenteditable') {
+  static async clipboardToContenteditable() {
+    const editable = this.getContenteditableElement();
+    if (!editable) {
+      this.displayToast('No editable field is currently focused.');
+      return;
+    }
     const clipboardContents = await navigator.clipboard.readText();
     if (!clipboardContents || !clipboardContents.trim()) {
-      displayToast('The clipboard is empty.');
+      this.displayToast('The clipboard is empty.');
       return;
     }
 
@@ -42,34 +78,8 @@ chrome.runtime.onMessage.addListener(async message => {
     document.execCommand('formatBlock', false, 'div')
     document.execCommand('insertHTML', false, clipboardContents);
 
-    displayToast('📝 HTML source replaced from the clipboard.\n' +
-                 'Use Ctrl+Z twice to undo.', 'from-right');
+    this.displayToast(
+      '📝 HTML source replaced from the clipboard.\n' +
+      'Use Ctrl+Z twice to undo.', 'from-right');
   }
-});
-
-function getContenteditableElement() {
-  const element = document.activeElement.closest(
-    '[contenteditable], [contentEditable]');
-
-  if (!element) {
-    return null;
-  }
-
-  if (element.contentEditable !== true && element.contentEditable !== 'true' &&
-      element.contenteditable !== true && element.contenteditable !== 'true') {
-    return null;
-  }
-
-  return element;
-}
-
-function displayToast(message, style) {
-  const toast = document.createElement('div');
-  toast.classList.add('editable-html-to-clipboard-toast');
-  if (style === 'from-left' || style === 'from-right') {
-    toast.classList.add(style);
-  }
-  toast.innerText = message;
-  document.body.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
 }
