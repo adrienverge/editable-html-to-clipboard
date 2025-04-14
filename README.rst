@@ -3,6 +3,9 @@ Editable HTML to clipboard
 
 Copy or paste source HTML of editable fields to/from clipboard.
 
+.. image:: screenshot.png
+   :alt: screenshot
+
 *Editable HTML to clipboard* is a Chrome browser extension that lets you copy
 the HTML contents of rich text fields to the clipboard, so you can edit them
 with your favorite code editor, then paste them back into the rich text input.
