@@ -27,15 +27,16 @@ class EditableHtmlToClipboard {
     setTimeout(() => toast.remove(), 3000);
   }
 
-  static getContenteditableElement() {
+  static getEditableElement() {
     const element = document.activeElement.closest(
-      '[contenteditable], [contentEditable]');
+      'textarea, [contenteditable], [contentEditable]');
 
     if (!element) {
       return null;
     }
 
-    if (element.contentEditable !== true &&
+    if (element.tagName !== 'TEXTAREA' &&
+        element.contentEditable !== true &&
         element.contentEditable !== 'true' &&
         element.contenteditable !== true &&
         element.contenteditable !== 'true') {
@@ -46,7 +47,7 @@ class EditableHtmlToClipboard {
   }
 
   static contenteditableToClipboard() {
-    const editable = this.getContenteditableElement();
+    const editable = this.getEditableElement();
     if (!editable) {
       this.displayToast('No editable field is currently focused.');
       return;
@@ -60,7 +61,7 @@ class EditableHtmlToClipboard {
   }
 
   static async clipboardToContenteditable() {
-    const editable = this.getContenteditableElement();
+    const editable = this.getEditableElement();
     if (!editable) {
       this.displayToast('No editable field is currently focused.');
       return;

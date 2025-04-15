@@ -16,7 +16,7 @@ Outlook…
 The *copy HTML source to clipboard* and *paste HTML source from clipboard*
 options are available through a context menu (right click) and via keyboard
 shortcuts (``Ctrl+.`` and ``Ctrl+Shift+.``). These work only on rich text fields
-(technically: ``contenteditable`` HTML elements), not on plain text inputs.
+and plain text multiline inputs (``<textarea>`` HTML elements).
 
 Install the browser extension from its `Chrome Web Store page <TODO>`_ (TODO).
 
