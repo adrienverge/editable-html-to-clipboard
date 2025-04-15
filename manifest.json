@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Editable HTML to clipboard",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Copy or paste source HTML of editable fields to/from clipboard",
   "permissions": [
     "activeTab",
