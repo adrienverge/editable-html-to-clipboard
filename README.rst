@@ -32,6 +32,16 @@ Usage
 
 .. _Chrome Web Store page: https://chromewebstore.google.com/detail/editable-html-to-clipboard/omemkggmjfcjpmfdpnkkhfppopemmkbp
 
+Development
+-----------
+
+Packaging:
+
+.. code-block:: bash
+
+ zip extension.zip \
+   content.css content.js icon128.png LICENSE manifest.json service-worker.js
+
 History
 -------
 
